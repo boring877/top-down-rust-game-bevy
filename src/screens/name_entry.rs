@@ -1,15 +1,8 @@
+use crate::components::*;
+use crate::constants::*;
 use crate::game_state::GameState;
 use bevy::input::keyboard::{Key, KeyboardInput};
 use bevy::prelude::*;
-
-#[derive(Resource)]
-struct PlayerName(String);
-
-#[derive(Component)]
-struct NameText;
-
-#[derive(Component)]
-struct NameEntryUI;
 
 pub fn name_entry_plugin(app: &mut App) {
     app.insert_resource(PlayerName(String::new()))
@@ -32,44 +25,44 @@ fn setup_name_entry(mut commands: Commands) {
             align_items: AlignItems::Center,
             justify_content: JustifyContent::Center,
             flex_direction: FlexDirection::Column,
-            row_gap: px(20),
+            row_gap: px(ROW_GAP_SMALL),
             ..default()
         },
         children![
             (
                 Text::new("Enter your name:"),
                 TextFont {
-                    font_size: 40.0,
+                    font_size: FONT_SIZE_LABEL,
                     ..default()
                 },
-                TextColor(Color::WHITE),
+                TextColor(COLOR_TEXT),
             ),
             (
                 Text::new(""),
                 TextFont {
-                    font_size: 40.0,
+                    font_size: FONT_SIZE_LABEL,
                     ..default()
                 },
-                TextColor(Color::WHITE),
+                TextColor(COLOR_TEXT),
                 NameText,
             ),
             (
                 Button,
                 Node {
-                    width: px(200),
-                    height: px(60),
+                    width: px(BUTTON_WIDTH),
+                    height: px(BUTTON_HEIGHT),
                     justify_content: JustifyContent::Center,
                     align_items: AlignItems::Center,
                     ..default()
                 },
-                BackgroundColor(Color::srgb(0.2, 0.2, 0.6)),
+                BackgroundColor(COLOR_NAME_BUTTON),
                 children![
                     Text::new("Start"),
                     TextFont {
-                        font_size: 40.0,
+                        font_size: FONT_SIZE_BUTTON,
                         ..default()
                     },
-                    TextColor(Color::WHITE),
+                    TextColor(COLOR_TEXT),
                 ]
             )
         ],
@@ -112,7 +105,7 @@ fn handle_start_button(
 ) {
     for interaction in interaction_query.iter_mut() {
         if *interaction == Interaction::Pressed {
-            next_state.set(GameState::Game);
+            next_state.set(GameState::Menu);
         }
     }
 }

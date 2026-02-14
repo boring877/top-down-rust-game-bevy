@@ -1,15 +1,10 @@
-use bevy::prelude::*;
+use crate::components::*;
+use crate::constants::*;
 use crate::game_state::GameState;
-
-#[derive(Resource, Deref, DerefMut)]
-struct SplashTimer(Timer);
-
-#[derive(Component)]
-struct SplashUI;
+use bevy::prelude::*;
 
 pub fn splash_plugin(app: &mut App) {
-    app
-        .add_systems(OnEnter(GameState::Splash), splash_setup)
+    app.add_systems(OnEnter(GameState::Splash), splash_setup)
         .add_systems(Update, countdown.run_if(in_state(GameState::Splash)))
         .add_systems(OnExit(GameState::Splash), cleanup_splash);
 }
@@ -27,16 +22,19 @@ fn splash_setup(mut commands: Commands) {
             ..default()
         },
         children![(
-            Text::new("Player VS Boss"),
+            Text::new(GAME_TITLE),
             TextFont {
-                font_size: 80.0,
+                font_size: FONT_SIZE_SPLASH,
                 ..default()
             },
-            TextColor(Color::WHITE),
+            TextColor(COLOR_TEXT),
         )],
     ));
 
-    commands.insert_resource(SplashTimer(Timer::from_seconds(2.0, TimerMode::Once)));
+    commands.insert_resource(SplashTimer(Timer::from_seconds(
+        SPLASH_DURATION_SECS,
+        TimerMode::Once,
+    )));
 }
 
 fn countdown(
