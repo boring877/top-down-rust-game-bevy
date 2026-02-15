@@ -1,12 +1,15 @@
-use crate::components::{Boss, Player};
+use crate::components::{Boss, Enemy, Collider, Health, Player};
 use crate::constants::*;
 use bevy::prelude::*;
 
 pub fn spawn_boss(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn((
         Boss,
+        Enemy,
+        Collider { radius: BOSS_COLLIDER_RADIUS },
         Sprite::from_image(asset_server.load("sprites/boss.png")),
         Transform::from_xyz(200.0, 200.0, 0.0),
+        Health::new(BOSS_HEALTH),
     ));
 }
 

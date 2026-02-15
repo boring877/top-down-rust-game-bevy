@@ -6,7 +6,9 @@
       "mcp__zread__read_file",
       "Bash(cargo:*)",
       "Bash(cmd.exe /c \"cargo build 2>&1\")",
-      "Bash(powershell.exe:*)"
+      "Bash(powershell.exe:*)",
+      "Bash(~/.cargo/bin/cargo:*)",
+      "Bash(where:*)"
     ]
   }
 }

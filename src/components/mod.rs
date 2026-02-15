@@ -3,6 +3,7 @@ pub mod game;
 pub mod input;
 pub mod menu;
 pub mod name_entry;
+pub mod physics;
 pub mod settings;
 pub mod splash;
 
@@ -12,5 +13,6 @@ pub use game::*;
 pub use input::*;
 pub use menu::*;
 pub use name_entry::*;
+pub use physics::*;
 pub use settings::*;
 pub use splash::*;

@@ -1,14 +1,17 @@
-use crate::components::{Player, PlayerAction, default_input_map};
+use crate::components::{Health, Player, PlayerAction, default_input_map, FireRate, ShotCounter};
 use crate::constants::*;
 use bevy::prelude::*;
 use leafwing_input_manager::prelude::*;
 
 pub fn spawn_player(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.spawn((
+        FireRate::new(DEFAULT_FIRE_RATE),
+        ShotCounter::default(),
         Player,
         Sprite::from_image(asset_server.load("sprites/player.png")),
         Transform::from_xyz(0.0, 0.0, 1.0),
         default_input_map(),
+        Health::new(PLAYER_HEALTH),
     ));
 }
 

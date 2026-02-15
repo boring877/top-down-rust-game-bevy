@@ -9,6 +9,8 @@ use bevy::window::WindowMode;
 use components::PlayerAction;
 use game_state::GameState;
 use leafwing_input_manager::prelude::*;
+use bevy::sprite_render::Material2dPlugin;
+use crate::components::BulletMaterial;
 
 fn main() {
     App::new()
@@ -22,6 +24,7 @@ fn main() {
         }))
         .init_state::<GameState>()
         .add_plugins(InputManagerPlugin::<PlayerAction>::default())
+        .add_plugins(Material2dPlugin::<BulletMaterial>::default())
         .add_plugins(game::game_plugin)
         .add_plugins(screens::splash::splash_plugin)
         .add_plugins(screens::menu::menu_plugin)
