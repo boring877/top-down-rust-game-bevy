@@ -10,7 +10,8 @@ use components::PlayerAction;
 use game_state::GameState;
 use leafwing_input_manager::prelude::*;
 use bevy::sprite_render::Material2dPlugin;
-use crate::components::BulletMaterial;
+use avian2d::prelude::*;
+use crate::components::{BulletMaterial, BladeMaterial, ObstacleMaterial, FloorMaterial, PlayerMaterial, BossMaterial};
 
 fn main() {
     App::new()
@@ -24,7 +25,13 @@ fn main() {
         }))
         .init_state::<GameState>()
         .add_plugins(InputManagerPlugin::<PlayerAction>::default())
+        .add_plugins(Material2dPlugin::<PlayerMaterial>::default())
+        .add_plugins(Material2dPlugin::<BossMaterial>::default())
         .add_plugins(Material2dPlugin::<BulletMaterial>::default())
+        .add_plugins(Material2dPlugin::<BladeMaterial>::default())
+        .add_plugins(Material2dPlugin::<ObstacleMaterial>::default())
+        .add_plugins(Material2dPlugin::<FloorMaterial>::default())
+        .add_plugins(PhysicsPlugins::default())
         .add_plugins(game::game_plugin)
         .add_plugins(screens::splash::splash_plugin)
         .add_plugins(screens::menu::menu_plugin)

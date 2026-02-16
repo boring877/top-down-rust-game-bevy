@@ -1,7 +1,8 @@
-use crate::components::{Bullet, Health, Player, Enemy, Collider, FireRate, BulletMaterial, ShotCounter, SuperBullet, DamageNumber};
+use crate::components::{Bullet, Health, Player, Enemy, FireRate, BulletMaterial, ShotCounter, SuperBullet, DamageNumber, Obstacle};
 use crate::constants::*;
 use bevy::prelude::*;
 use bevy::sprite_render::MeshMaterial2d;
+use avian2d::prelude::*;
 
 pub fn spawn_bullet(
     time: Res<Time>,
@@ -63,7 +64,10 @@ pub fn bullet_movement(
         transform.translation.x += bullet.direction.x * bullet.speed * time.delta_secs();
         transform.translation.y += bullet.direction.y * bullet.speed * time.delta_secs();
 
-        if transform.translation.x.abs() > 1000.0 || transform.translation.y.abs() > 1000.0 {
+        // Despawn bullets that go outside arena bounds (with some margin)
+        let margin = 100.0;
+        if transform.translation.x.abs() > ARENA_HALF_WIDTH + margin
+            || transform.translation.y.abs() > ARENA_HALF_HEIGHT + margin {
             commands.entity(entity).despawn();
         }
     }
@@ -72,17 +76,42 @@ pub fn bullet_movement(
 pub fn bullet_collision(
     mut commands: Commands,
     bullets: Query<(Entity, &Transform, &Bullet), With<Bullet>>,
-    mut enemies: Query<(&Transform, &mut Health, &Collider), With<Enemy>>,
+    mut enemies: Query<(&Transform, &mut Health, &mut LinearVelocity), (With<Enemy>, Without<Obstacle>)>,
+    obstacles: Query<&Transform, (With<Obstacle>, Without<Enemy>)>,
 ) {
-    for (bullet_entity, bullet_transform, bullet) in bullets.iter() {
-        for (enemy_transform, mut health, collider) in enemies.iter_mut() {
+    'bullet_loop: for (bullet_entity, bullet_transform, bullet) in bullets.iter() {
+        // Check collision with obstacles first
+        for obstacle_transform in obstacles.iter() {
+            let distance = bullet_transform
+                .translation
+                .distance(obstacle_transform.translation);
+
+            // Use OBSTACLE_SIZE / 2 as collision radius
+            if distance < OBSTACLE_SIZE / 2.0 {
+                commands.entity(bullet_entity).despawn();
+                continue 'bullet_loop;
+            }
+        }
+
+        // Check collision with enemies
+        for (enemy_transform, mut health, mut velocity) in enemies.iter_mut() {
             let distance = bullet_transform
             .translation
             .distance(enemy_transform.translation);
 
-            if distance < collider.radius {
+            // Use BOSS_COLLIDER_RADIUS for boss collision
+            if distance < BOSS_COLLIDER_RADIUS {
                 // Apply damage
                 health.take_damage(bullet.damage);
+
+                // Apply knockback to enemy
+                let knockback_strength = if bullet.damage > BULLET_DAMAGE {
+                    300.0 // Super bullet knockback
+                } else {
+                    150.0 // Normal bullet knockback
+                };
+                velocity.x += bullet.direction.x * knockback_strength;
+                velocity.y += bullet.direction.y * knockback_strength;
 
                 // Spawn damage number
                 spawn_damage_number(

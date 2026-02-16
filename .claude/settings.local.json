@@ -8,7 +8,9 @@
       "Bash(cmd.exe /c \"cargo build 2>&1\")",
       "Bash(powershell.exe:*)",
       "Bash(~/.cargo/bin/cargo:*)",
-      "Bash(where:*)"
+      "Bash(where:*)",
+      "Bash(/c/Users/Borin/.cargo/bin/cargo.exe build:*)",
+      "Bash(cmd.exe /c \"cd /d c:\\\\Users\\\\Borin\\\\top-down && cargo build 2>&1\")"
     ]
   }
 }

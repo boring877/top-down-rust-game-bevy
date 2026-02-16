@@ -1,27 +1,29 @@
-use crate::components::Floor;
+use crate::components::{Floor, FloorMaterial};
 use crate::constants::*;
 use bevy::prelude::*;
+use bevy::sprite_render::MeshMaterial2d;
 
-pub fn spawn_floor(mut commands: Commands) {
-    for x in -GRID_SIZE / 2..GRID_SIZE / 2 {
-        for y in -GRID_SIZE / 2..GRID_SIZE / 2 {
-            let is_checker = (x + y) % 2 == 0;
-            let color = if is_checker { FLOOR_COLOR } else { GRID_COLOR };
+pub fn spawn_floor(
+    mut commands: Commands,
+    mut meshes: ResMut<Assets<Mesh>>,
+    mut materials: ResMut<Assets<FloorMaterial>>,
+) {
+    // Floor size is much larger than arena to cover any screen resolution
+    // In borderless fullscreen, monitors can have various resolutions
+    let floor_width = ARENA_HALF_WIDTH * 4.0;
+    let floor_height = ARENA_HALF_HEIGHT * 4.0;
 
-            let pos_x = (x as f32 + 0.5) * TILE_SIZE;
-            let pos_y = (y as f32 + 0.5) * TILE_SIZE;
-
-            commands.spawn((
-                Floor,
-                Sprite {
-                    color,
-                    custom_size: Some(Vec2::new(TILE_SIZE, TILE_SIZE)),
-                    ..default()
-                },
-                Transform::from_xyz(pos_x, pos_y, -10.0),
-            ));
-        }
-    }
+    commands.spawn((
+        Floor,
+        Mesh2d(meshes.add(Rectangle::new(floor_width, floor_height))),
+        MeshMaterial2d(materials.add(FloorMaterial {
+            color: FLOOR_COLOR.to_linear(),
+            tile_size: 64.0, // Used by shader for grid pattern
+            _pad1: 0.0,
+            _pad2: 0.0,
+        })),
+        Transform::from_xyz(0.0, 0.0, -10.0),
+    ));
 }
 
 pub fn cleanup_floor(mut commands: Commands, floors: Query<Entity, With<Floor>>) {
