@@ -129,3 +129,37 @@ pub const OBSTACLE_PILLAR_COLOR: Color = Color::srgb(0.6, 0.55, 0.5);
 // TEXT
 // ============================================================================
 pub const GAME_TITLE: &str = "Player VS Boss";
+
+// ============================================================================
+// GACHA MENU - SIZES
+// ============================================================================
+pub const NAVBAR_HEIGHT: f32 = 80.0;
+pub const NAV_BUTTON_SIZE: f32 = 60.0;
+pub const PLAY_BUTTON_SIZE: f32 = 90.0;
+pub const CURRENCY_BAR_HEIGHT: f32 = 50.0;
+pub const SHOWCASE_HEIGHT: f32 = 300.0;
+pub const TOAST_DURATION: f32 = 2.0;
+
+// ============================================================================
+// GACHA MENU - COLORS
+// ============================================================================
+pub const COLOR_PLAY_BUTTON: Color = Color::srgb(0.9, 0.7, 0.2);  // Gold
+pub const COLOR_PLAY_BUTTON_HOVER: Color = Color::srgb(1.0, 0.85, 0.4);
+pub const COLOR_NAVBAR_BG: Color = Color::srgb(0.08, 0.08, 0.12);
+pub const COLOR_NAV_BUTTON: Color = Color::srgb(0.15, 0.15, 0.2);
+pub const COLOR_NAV_BUTTON_HOVER: Color = Color::srgb(0.25, 0.25, 0.35);
+pub const COLOR_CURRENCY_BG: Color = Color::srgb(0.1, 0.1, 0.15);
+pub const COLOR_SHOWCASE_BG: Color = Color::srgb(0.12, 0.12, 0.18);
+pub const COLOR_MENU_BG: Color = Color::srgb(0.06, 0.06, 0.1);
+pub const COLOR_GLOW: Color = Color::srgb(1.0, 0.85, 0.3);
+pub const COLOR_COIN: Color = Color::srgb(1.0, 0.8, 0.2);
+pub const COLOR_GEM: Color = Color::srgb(0.5, 0.8, 1.0);
+pub const COLOR_TOAST_BG: Color = Color::srgba(0.2, 0.2, 0.3, 0.9);
+
+// ============================================================================
+// GACHA MENU - FONT SIZES
+// ============================================================================
+pub const FONT_SIZE_NAV: f32 = 18.0;
+pub const FONT_SIZE_CURRENCY: f32 = 20.0;
+pub const FONT_SIZE_SHOWCASE_TITLE: f32 = 32.0;
+pub const FONT_SIZE_TOAST: f32 = 24.0;

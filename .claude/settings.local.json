@@ -10,7 +10,14 @@
       "Bash(~/.cargo/bin/cargo:*)",
       "Bash(where:*)",
       "Bash(/c/Users/Borin/.cargo/bin/cargo.exe build:*)",
-      "Bash(cmd.exe /c \"cd /d c:\\\\Users\\\\Borin\\\\top-down && cargo build 2>&1\")"
+      "Bash(cmd.exe /c \"cd /d c:\\\\Users\\\\Borin\\\\top-down && cargo build 2>&1\")",
+      "mcp__zread__get_repo_structure",
+      "Bash(wc:*)",
+      "mcp__zai-mcp-server__analyze_image",
+      "Bash(cmd.exe:*)",
+      "Bash(/c/Users/Borin/.cargo/bin/cargo.exe check:*)",
+      "Bash(cmd /c \"cd /d c:\\\\Users\\\\Borin\\\\top-down && cargo build 2>&1\")",
+      "Bash(powershell:*)"
     ]
   }
 }

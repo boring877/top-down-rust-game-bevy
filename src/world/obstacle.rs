@@ -1,4 +1,5 @@
-use crate::components::{Obstacle, ObstacleMaterial, ObstacleShape};
+use crate::components::{Obstacle, ObstacleShape};
+use crate::materials::ObstacleMaterial;
 use crate::constants::*;
 use bevy::prelude::*;
 use bevy::sprite_render::MeshMaterial2d;
@@ -8,7 +9,13 @@ pub fn spawn_obstacles(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<ObstacleMaterial>>,
+    existing_obstacles: Query<(), With<Obstacle>>,
 ) {
+    // Don't spawn if obstacles already exist (e.g., returning from pause)
+    if !existing_obstacles.is_empty() {
+        return;
+    }
+
     for (x, y, shape_type) in ARENA_OBSTACLES {
         let shape = match shape_type {
             0 => ObstacleShape::Rock,
@@ -26,7 +33,7 @@ pub fn spawn_obstacles(
 
         commands.spawn((
             Obstacle,
-            RigidBody::Static, // Static obstacles don't move
+            RigidBody::Static,
             Collider::circle(OBSTACLE_SIZE / 2.0),
             Mesh2d(meshes.add(Rectangle::new(OBSTACLE_SIZE, OBSTACLE_SIZE))),
             MeshMaterial2d(materials.add(ObstacleMaterial {

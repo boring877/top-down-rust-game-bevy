@@ -5,14 +5,17 @@ use bevy::prelude::*;
 
 pub fn splash_plugin(app: &mut App) {
     app.add_systems(OnEnter(GameState::Splash), splash_setup)
-        .add_systems(Update, countdown.run_if(in_state(GameState::Splash)))
-        .add_systems(OnExit(GameState::Splash), cleanup_splash);
+        .add_systems(Update, countdown.run_if(in_state(GameState::Splash)));
 }
 
 fn splash_setup(mut commands: Commands) {
-    commands.spawn(Camera2d);
+    commands.spawn((
+        DespawnOnExit(GameState::Splash),
+        Camera2d,
+    ));
 
     commands.spawn((
+        DespawnOnExit(GameState::Splash),
         SplashUI,
         Node {
             width: percent(100),
@@ -44,18 +47,5 @@ fn countdown(
 ) {
     if timer.tick(time.delta()).just_finished() {
         next_state.set(GameState::NameEntry);
-    }
-}
-
-fn cleanup_splash(
-    mut commands: Commands,
-    query: Query<Entity, With<SplashUI>>,
-    cameras: Query<Entity, With<Camera2d>>,
-) {
-    for entity in query.iter() {
-        commands.entity(entity).despawn();
-    }
-    for cam in cameras.iter() {
-        commands.entity(cam).despawn();
     }
 }

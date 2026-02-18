@@ -7,3 +7,5 @@ edition = "2024"
 bevy = { version = "0.18", features = ["jpeg"] }
 avian2d = "0.5"
 leafwing-input-manager = "0.20"
+bevy_hanabi = "0.18.0"
+rand = "0.10.0"

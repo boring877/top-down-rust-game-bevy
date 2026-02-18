@@ -1,4 +1,5 @@
-use crate::components::{Floor, FloorMaterial};
+use crate::components::Floor;
+use crate::materials::FloorMaterial;
 use crate::constants::*;
 use bevy::prelude::*;
 use bevy::sprite_render::MeshMaterial2d;
@@ -7,9 +8,13 @@ pub fn spawn_floor(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<FloorMaterial>>,
+    existing_floors: Query<(), With<Floor>>,
 ) {
-    // Floor size is much larger than arena to cover any screen resolution
-    // In borderless fullscreen, monitors can have various resolutions
+    // Don't spawn if floor already exists (e.g., returning from pause)
+    if !existing_floors.is_empty() {
+        return;
+    }
+
     let floor_width = ARENA_HALF_WIDTH * 4.0;
     let floor_height = ARENA_HALF_HEIGHT * 4.0;
 
@@ -18,7 +23,7 @@ pub fn spawn_floor(
         Mesh2d(meshes.add(Rectangle::new(floor_width, floor_height))),
         MeshMaterial2d(materials.add(FloorMaterial {
             color: FLOOR_COLOR.to_linear(),
-            tile_size: 64.0, // Used by shader for grid pattern
+            tile_size: 64.0,
             _pad1: 0.0,
             _pad2: 0.0,
         })),

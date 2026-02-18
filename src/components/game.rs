@@ -1,7 +1,4 @@
 use bevy::prelude::*;
-use bevy::render::render_resource::AsBindGroup;
-use bevy::shader::ShaderRef;
-use bevy::sprite_render::{AlphaMode2d, Material2d};
 
 // ============================================================================
 // ENTITIES
@@ -19,8 +16,21 @@ pub struct Boss;
 #[derive(Component)]
 pub struct BossLastPosition(pub Vec2);
 
+#[derive(Component)]
+pub struct Obstacle;
+
+#[derive(Clone, Copy, PartialEq)]
+pub enum ObstacleShape {
+    Rock,
+    Crystal,
+    Pillar,
+}
+
+#[derive(Component)]
+pub struct Floor;
+
 // ============================================================================
-// COMBAT - HEALTH
+// HEALTH
 // ============================================================================
 
 #[derive(Component)]
@@ -44,213 +54,5 @@ impl Health {
 
     pub fn is_dead(&self) -> bool {
         self.current == 0
-    }
-}
-
-// ============================================================================
-// COMBAT - BULLET
-// ============================================================================
-
-#[derive(Component)]
-pub struct Bullet {
-    pub speed: f32,
-    pub damage: u32,
-    pub direction: Vec2,
-}
-
-#[derive(Component)]
-pub struct SuperBullet;
-
-#[derive(Component)]
-pub struct FireRate {
-    pub timer: Timer,
-}
-
-impl FireRate {
-    pub fn new(seconds: f32) -> Self {
-        Self {
-            timer: Timer::from_seconds(seconds, TimerMode::Repeating),
-        }
-    }
-
-    pub fn set_rate(&mut self, seconds: f32) {
-        self.timer.set_duration(std::time::Duration::from_secs_f32(seconds));
-    }
-}
-
-#[derive(Component)]
-pub struct ShotCounter {
-    pub count: u32,
-}
-
-impl Default for ShotCounter {
-    fn default() -> Self {
-        Self { count: 0 }
-    }
-}
-
-#[derive(Component)]
-pub struct DamageNumber {
-    pub timer: Timer,
-    pub damage: u32,
-}
-
-#[derive(Component)]
-pub struct BladeAttack {
-    pub timer: Timer,
-    pub damage: u32,
-    pub angle_start: f32,
-    pub angle_end: f32,
-    pub has_hit_player: bool,
-    pub direction: Vec2,
-    pub speed: f32,
-}
-
-#[derive(Component)]
-pub struct BossAttackTimer {
-    pub timer: Timer,
-}
-
-// ============================================================================
-// OBSTACLES
-// ============================================================================
-
-#[derive(Component)]
-pub struct Obstacle;
-
-#[derive(Clone, Copy, PartialEq)]
-pub enum ObstacleShape {
-    Rock,
-    Crystal,
-    Pillar,
-}
-
-// ============================================================================
-// SHADERS
-// ============================================================================
-
-#[derive(Asset, TypePath, Debug, AsBindGroup, Clone)]
-pub struct PlayerMaterial {
-    #[uniform(0)]
-    pub color: LinearRgba,
-    #[uniform(0)]
-    pub hit_flash: f32,
-    #[uniform(0)]
-    pub facing_angle: f32,
-    #[uniform(0)]
-    pub is_moving: f32,
-    #[uniform(0)]
-    pub time: f32,
-}
-
-impl Material2d for PlayerMaterial {
-    fn fragment_shader() -> ShaderRef {
-        "shaders/player.wgsl".into()
-    }
-
-    fn alpha_mode(&self) -> AlphaMode2d {
-        AlphaMode2d::Blend
-    }
-}
-
-#[derive(Asset, TypePath, Debug, AsBindGroup, Clone)]
-pub struct BossMaterial {
-    #[uniform(0)]
-    pub color: LinearRgba,
-    #[uniform(0)]
-    pub hit_flash: f32,
-    #[uniform(0)]
-    pub health_percent: f32,
-    #[uniform(0)]
-    pub time: f32,
-    #[uniform(0)]
-    pub is_moving: f32,
-}
-
-impl Material2d for BossMaterial {
-    fn fragment_shader() -> ShaderRef {
-        "shaders/boss.wgsl".into()
-    }
-
-    fn alpha_mode(&self) -> AlphaMode2d {
-        AlphaMode2d::Blend
-    }
-}
-
-#[derive(Asset, TypePath, Debug, AsBindGroup, Clone)]
-pub struct BulletMaterial {
-    #[uniform(0)]
-    pub color: LinearRgba,
-}
-
-impl Material2d for BulletMaterial {
-    fn fragment_shader() -> ShaderRef {
-        "shaders/bullet.wgsl".into()
-    }
-
-    fn alpha_mode(&self) -> AlphaMode2d {
-        AlphaMode2d::Blend
-    }
-}
-
-#[derive(Asset, TypePath, Debug, AsBindGroup, Clone)]
-pub struct BladeMaterial {
-    #[uniform(0)]
-    pub color: LinearRgba,
-    #[uniform(0)]
-    pub progress: f32,
-}
-
-impl Material2d for BladeMaterial {
-    fn fragment_shader() -> ShaderRef {
-        "shaders/blade.wgsl".into()
-    }
-
-    fn alpha_mode(&self) -> AlphaMode2d {
-        AlphaMode2d::Blend
-    }
-}
-
-#[derive(Asset, TypePath, Debug, AsBindGroup, Clone)]
-pub struct ObstacleMaterial {
-    #[uniform(0)]
-    pub color: LinearRgba,
-    #[uniform(0)]
-    pub shape_type: f32,
-    #[uniform(0)]
-    pub _pad1: f32,
-    #[uniform(0)]
-    pub _pad2: f32,
-}
-
-impl Material2d for ObstacleMaterial {
-    fn fragment_shader() -> ShaderRef {
-        "shaders/obstacle.wgsl".into()
-    }
-
-    fn alpha_mode(&self) -> AlphaMode2d {
-        AlphaMode2d::Blend
-    }
-}
-
-#[derive(Asset, TypePath, Debug, AsBindGroup, Clone)]
-pub struct FloorMaterial {
-    #[uniform(0)]
-    pub color: LinearRgba,
-    #[uniform(0)]
-    pub tile_size: f32,
-    #[uniform(0)]
-    pub _pad1: f32,
-    #[uniform(0)]
-    pub _pad2: f32,
-}
-
-impl Material2d for FloorMaterial {
-    fn fragment_shader() -> ShaderRef {
-        "shaders/floor.wgsl".into()
-    }
-
-    fn alpha_mode(&self) -> AlphaMode2d {
-        AlphaMode2d::Opaque
     }
 }

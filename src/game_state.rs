@@ -8,4 +8,5 @@ pub enum GameState {
     Menu,
     SettingsMenu,
     Game,
+    PauseMenu,  // Pause/reset menu during gameplay
 }

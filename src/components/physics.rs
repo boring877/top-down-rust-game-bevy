@@ -1,18 +1,7 @@
 use bevy::prelude::*;
 
-#[derive(Component)]
-pub struct Enemy;
+// Placeholder for future physics-related components
+// Currently using Avian2D's built-in Collider
 
 #[derive(Component)]
 pub struct Wall;
-
-#[derive(Component)]
-pub struct Collider {
-    pub radius: f32,
-}
-
-impl Default for Collider {
-    fn default() -> Self {
-        Self { radius: 16.0 }
-    }
-}
