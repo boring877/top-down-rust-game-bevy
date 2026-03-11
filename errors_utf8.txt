@@ -1,0 +1,310 @@
+﻿cargo.exe :     Checking top-down v0.1.0 (C:\Users\Borin\top-down)
+At line:1 char:1
++ & "$HOME\.cargo\bin\cargo" check > errors.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (    Checking to...Borin\top-down):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+error[E0425]: cannot find value `FONT_SIZE_NORMAL` in this scope
+   --> src\screens\stash_menu.rs:90:47
+    |
+ 90 |                         TextFont { font_size: FONT_SIZE_NORMAL, ..default() },
+    |                                               ^^^^^^^^^^^^^^^^ help: a constant with a similar name exists: `FONT_SIZE_NAV`
+    |
+   ::: src\constants.rs:162:1
+    |
+162 | pub const FONT_SIZE_NAV: f32 = 18.0;
+    | ------------------------------------ similarly named constant `FONT_SIZE_NAV` defined here
+
+error[E0425]: cannot find value `FONT_SIZE_NORMAL` in this scope
+   --> src\screens\stash_menu.rs:95:47
+    |
+ 95 |                         TextFont { font_size: FONT_SIZE_NORMAL, ..default() },
+    |                                               ^^^^^^^^^^^^^^^^ help: a constant with a similar name exists: `FONT_SIZE_NAV`
+    |
+   ::: src\constants.rs:162:1
+    |
+162 | pub const FONT_SIZE_NAV: f32 = 18.0;
+    | ------------------------------------ similarly named constant `FONT_SIZE_NAV` defined here
+
+error[E0425]: cannot find value `FONT_SIZE_NORMAL` in this scope
+   --> src\screens\stash_menu.rs:100:47
+    |
+100 |                         TextFont { font_size: FONT_SIZE_NORMAL, ..default() },
+    |                                               ^^^^^^^^^^^^^^^^ help: a constant with a similar name exists: `FONT_SIZE_NAV`
+    |
+   ::: src\constants.rs:162:1
+    |
+162 | pub const FONT_SIZE_NAV: f32 = 18.0;
+    | ------------------------------------ similarly named constant `FONT_SIZE_NAV` defined here
+
+error[E0603]: module `damage` is private
+ --> src\world\pickup.rs:4:20
+  |
+4 | use crate::combat::damage::spawn_damage_number;
+  |                    ^^^^^^ private module
+  |
+note: the module `damage` is defined here
+ --> src\combat\mod.rs:2:1
+  |
+2 | mod damage;
+  | ^^^^^^^^^^^
+
+warning: unused import: `rand::Rng`
+  --> src\boss\death.rs:38:9
+   |
+38 |     use rand::Rng;
+   |         ^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `crate::materials::BulletMaterial`
+ --> src\combat\skills.rs:3:5
+  |
+3 | use crate::materials::BulletMaterial;
+  |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: unused import: `crate::constants::*`
+ --> src\combat\skills.rs:4:5
+  |
+4 | use crate::constants::*;
+  |     ^^^^^^^^^^^^^^^^^^^
+
+warning: unused imports: `DamageNumber` and `GameCamera`
+ --> src\world\pickup.rs:2:66
+  |
+2 | use crate::components::{Pickup, PickupType, Player, PlayerStats, GameCamera, DamageNumber};
+  |                                                                  ^^^^^^^^^^  ^^^^^^^^^^^^
+
+warning: unused import: `crate::constants::*`
+ --> src\world\pickup.rs:3:5
+  |
+3 | use crate::constants::*;
+  |     ^^^^^^^^^^^^^^^^^^^
+
+error[E0599]: no method named `get_single` found for struct `bevy::prelude::Query<'world, 'state, D, F>` in the current scope
+  --> src\screens\stash_menu.rs:46:37
+   |
+46 |     if let Ok(stats) = player_query.get_single() {
+   |                                     ^^^^^^^^^^
+   |
+help: there is a method `single` with a similar name
+   |
+46 -     if let Ok(stats) = player_query.get_single() {
+46 +     if let Ok(stats) = player_query.single() {
+   |
+
+error[E0599]: no method named `random_range` found for struct `ThreadRng` in the current scope
+   --> src\boss\death.rs:74:52
+    |
+ 74 |                         let offset = Vec2::new(rng.random_range(-50.0..50.0), rng.random_range(-50.0..50.0));
+    |                                                    ^^^^^^^^^^^^
+    |
+   ::: C:\Users\Borin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\rand-0.10.0\src\rng.rs:159:8
+    |
+159 |     fn random_range<T, R>(&mut self, range: R) -> T
+    |        ------------ the method is available for `ThreadRng` here
+    |
+    = help: items from traits can only be used if the trait is in scope
+help: there is a method `random` with a similar name, but with different arguments
+   --> C:\Users\Borin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\rand-0.10.0\src\rng.rs:93:5
+    |
+ 93 | /     fn random<T>(&mut self) -> T
+ 94 | |     where
+ 95 | |         StandardUniform: Distribution<T>,
+    | |_________________________________________^
+help: trait `RngExt` which provides `random_range` is implemented but not in scope; perhaps you want to import it
+    |
+  1 + use rand::RngExt;
+    |
+
+error[E0599]: no method named `random_range` found for struct `ThreadRng` in the current scope
+   --> src\boss\death.rs:74:83
+    |
+ 74 |                         let offset = Vec2::new(rng.random_range(-50.0..50.0), rng.random_range(-50.0..50.0));
+    |                                                                                   ^^^^^^^^^^^^
+    |
+   ::: C:\Users\Borin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\rand-0.10.0\src\rng.rs:159:8
+    |
+159 |     fn random_range<T, R>(&mut self, range: R) -> T
+    |        ------------ the method is available for `ThreadRng` here
+    |
+    = help: items from traits can only be used if the trait is in scope
+help: there is a method `random` with a similar name, but with different arguments
+   --> C:\Users\Borin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\rand-0.10.0\src\rng.rs:93:5
+    |
+ 93 | /     fn random<T>(&mut self) -> T
+ 94 | |     where
+ 95 | |         StandardUniform: Distribution<T>,
+    | |_________________________________________^
+help: trait `RngExt` which provides `random_range` is implemented but not in scope; perhaps you want to import it
+    |
+  1 + use rand::RngExt;
+    |
+
+error[E0599]: no method named `random_range` found for struct `ThreadRng` in the current scope
+   --> src\boss\death.rs:90:52
+    |
+ 90 |                         let offset = Vec2::new(rng.random_range(-50.0..50.0), rng.random_range(-50.0..50.0));
+    |                                                    ^^^^^^^^^^^^
+    |
+   ::: C:\Users\Borin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\rand-0.10.0\src\rng.rs:159:8
+    |
+159 |     fn random_range<T, R>(&mut self, range: R) -> T
+    |        ------------ the method is available for `ThreadRng` here
+    |
+    = help: items from traits can only be used if the trait is in scope
+help: there is a method `random` with a similar name, but with different arguments
+   --> C:\Users\Borin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\rand-0.10.0\src\rng.rs:93:5
+    |
+ 93 | /     fn random<T>(&mut self) -> T
+ 94 | |     where
+ 95 | |         StandardUniform: Distribution<T>,
+    | |_________________________________________^
+help: trait `RngExt` which provides `random_range` is implemented but not in scope; perhaps you want to import it
+    |
+  1 + use rand::RngExt;
+    |
+
+error[E0599]: no method named `random_range` found for struct `ThreadRng` in the current scope
+   --> src\boss\death.rs:90:83
+    |
+ 90 |                         let offset = Vec2::new(rng.random_range(-50.0..50.0), rng.random_range(-50.0..50.0));
+    |                                                                                   ^^^^^^^^^^^^
+    |
+   ::: C:\Users\Borin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\rand-0.10.0\src\rng.rs:159:8
+    |
+159 |     fn random_range<T, R>(&mut self, range: R) -> T
+    |        ------------ the method is available for `ThreadRng` here
+    |
+    = help: items from traits can only be used if the trait is in scope
+help: there is a method `random` with a similar name, but with different arguments
+   --> C:\Users\Borin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\rand-0.10.0\src\rng.rs:93:5
+    |
+ 93 | /     fn random<T>(&mut self) -> T
+ 94 | |     where
+ 95 | |         StandardUniform: Distribution<T>,
+    | |_________________________________________^
+help: trait `RngExt` which provides `random_range` is implemented but not in scope; perhaps you want to import it
+    |
+  1 + use rand::RngExt;
+    |
+
+error[E0599]: no method named `random_range` found for struct `ThreadRng` in the current scope
+   --> src\boss\death.rs:105:48
+    |
+105 |                     let offset = Vec2::new(rng.random_range(-50.0..50.0), rng.random_range(-50.0..50.0));
+    |                                                ^^^^^^^^^^^^
+    |
+   ::: C:\Users\Borin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\rand-0.10.0\src\rng.rs:159:8
+    |
+159 |     fn random_range<T, R>(&mut self, range: R) -> T
+    |        ------------ the method is available for `ThreadRng` here
+    |
+    = help: items from traits can only be used if the trait is in scope
+help: there is a method `random` with a similar name, but with different arguments
+   --> C:\Users\Borin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\rand-0.10.0\src\rng.rs:93:5
+    |
+ 93 | /     fn random<T>(&mut self) -> T
+ 94 | |     where
+ 95 | |         StandardUniform: Distribution<T>,
+    | |_________________________________________^
+help: trait `RngExt` which provides `random_range` is implemented but not in scope; perhaps you want to import it
+    |
+  1 + use rand::RngExt;
+    |
+
+error[E0599]: no method named `random_range` found for struct `ThreadRng` in the current scope
+   --> src\boss\death.rs:105:79
+    |
+105 |                     let offset = Vec2::new(rng.random_range(-50.0..50.0), rng.random_range(-50.0..50.0));
+    |                                                                               ^^^^^^^^^^^^
+    |
+   ::: C:\Users\Borin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\rand-0.10.0\src\rng.rs:159:8
+    |
+159 |     fn random_range<T, R>(&mut self, range: R) -> T
+    |        ------------ the method is available for `ThreadRng` here
+    |
+    = help: items from traits can only be used if the trait is in scope
+help: there is a method `random` with a similar name, but with different arguments
+   --> C:\Users\Borin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\rand-0.10.0\src\rng.rs:93:5
+    |
+ 93 | /     fn random<T>(&mut self) -> T
+ 94 | |     where
+ 95 | |         StandardUniform: Distribution<T>,
+    | |_________________________________________^
+help: trait `RngExt` which provides `random_range` is implemented but not in scope; perhaps you want to import it
+    |
+  1 + use rand::RngExt;
+    |
+
+error[E0599]: no method named `get_single` found for struct `bevy::prelude::Query<'world, 'state, D, F>` in the current scope
+  --> src\combat\skills.rs:33:72
+   |
+33 |     if let Ok((player_entity, player_transform, stats)) = player_query.get_single() {
+   |                                                                        ^^^^^^^^^^
+   |
+help: there is a method `single` with a similar name
+   |
+33 -     if let Ok((player_entity, player_transform, stats)) = player_query.get_single() {
+33 +     if let Ok((player_entity, player_transform, stats)) = player_query.single() {
+   |
+
+error[E0599]: no method named `get_single_mut` found for struct `bevy::prelude::Query<'world, 'state, D, F>` in the current scope
+  --> src\combat\skills.rs:74:60
+   |
+74 |                         if let Ok(mut timer) = timer_query.get_single_mut() {
+   |                                                            ^^^^^^^^^^^^^^
+   |
+help: there is a method `single_mut` with a similar name
+   |
+74 -                         if let Ok(mut timer) = timer_query.get_single_mut() {
+74 +                         if let Ok(mut timer) = timer_query.single_mut() {
+   |
+
+error[E0599]: no method named `get_single_mut` found for struct `bevy::prelude::Query<'world, 'state, D, F>` in the current scope
+  --> src\combat\skills.rs:97:55
+   |
+97 |             } else if let Ok(mut burst) = burst_query.get_single_mut() {
+   |                                                       ^^^^^^^^^^^^^^
+   |
+help: there is a method `single_mut` with a similar name
+   |
+97 -             } else if let Ok(mut burst) = burst_query.get_single_mut() {
+97 +             } else if let Ok(mut burst) = burst_query.single_mut() {
+   |
+
+error[E0599]: no method named `get_single` found for struct `bevy::prelude::Query<'world, 'state, D, F>` in the current scope
+  --> src\world\pickup.rs:17:48
+   |
+17 |     if let Ok(player_transform) = player_query.get_single() {
+   |                                                ^^^^^^^^^^
+   |
+help: there is a method `single` with a similar name
+   |
+17 -     if let Ok(player_transform) = player_query.get_single() {
+17 +     if let Ok(player_transform) = player_query.single() {
+   |
+
+error[E0599]: no method named `get_single_mut` found for struct `bevy::prelude::Query<'world, 'state, D, F>` in the current scope
+  --> src\world\pickup.rs:18:44
+   |
+18 |         if let Ok(mut stats) = stats_query.get_single_mut() {
+   |                                            ^^^^^^^^^^^^^^
+   |
+help: there is a method `single_mut` with a similar name
+   |
+18 -         if let Ok(mut stats) = stats_query.get_single_mut() {
+18 +         if let Ok(mut stats) = stats_query.single_mut() {
+   |
+
+error[E0282]: type annotations needed
+  --> src\world\pickup.rs:34:47
+   |
+34 | ...                   PickupType::Xp => stats.add_xp(pickup.amount),
+   |                                         ^^^^^ cannot infer type
+
+Some errors have detailed explanations: E0282, E0425, E0599, E0603.
+For more information about an error, try `rustc --explain E0282`.
+warning: `top-down` (bin "top-down") generated 5 warnings
+error: could not compile `top-down` (bin "top-down") due to 17 previous errors; 5 warnings emitted

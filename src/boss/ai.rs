@@ -1,8 +1,6 @@
 use crate::components::{Boss, Player, Health};
-use crate::materials::BossMaterial;
 use crate::constants::*;
 use bevy::prelude::*;
-use bevy::sprite_render::MeshMaterial2d;
 use avian2d::prelude::*;
 
 pub fn boss_chase_player(
@@ -39,15 +37,25 @@ pub fn clamp_boss_to_arena(
 
 pub fn animate_boss(
     time: Res<Time>,
-    mut materials: ResMut<Assets<BossMaterial>>,
-    bosses: Query<(&Health, &Position, &LinearVelocity, &MeshMaterial2d<BossMaterial>), With<Boss>>,
+    mut bosses: Query<(&LinearVelocity, &mut Sprite, &mut Transform), With<Boss>>,
 ) {
-    for (health, _pos, velocity, material_handle) in bosses.iter() {
-        if let Some(material) = materials.get_mut(&material_handle.0) {
-            material.time += time.delta_secs();
-            material.health_percent = health.current as f32 / health.max as f32;
-            let speed = velocity.length();
-            material.is_moving = if speed > 10.0 { 1.0 } else { 0.0 };
+    let t = time.elapsed_secs() * 5.0; // Slower bobbing for big boss
+
+    for (velocity, mut sprite, mut transform) in bosses.iter_mut() {
+        let speed = velocity.length();
+
+        if velocity.x < -0.1 {
+            sprite.flip_x = true;
+        } else if velocity.x > 0.1 {
+            sprite.flip_x = false;
+        }
+
+        if speed > 10.0 {
+            transform.scale.x = 1.0 + (t.sin() * 0.05);
+            transform.scale.y = 1.0 + (t.cos() * 0.05);
+        } else {
+            transform.scale.x = 1.0;
+            transform.scale.y = 1.0;
         }
     }
 }

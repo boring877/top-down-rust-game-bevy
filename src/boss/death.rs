@@ -35,6 +35,9 @@ pub fn animate_boss_death(
     time: Res<Time>,
     mut dying_bosses: Query<(Entity, &mut Dying, &mut Transform), With<Boss>>,
 ) {
+    use rand::RngExt;
+    let mut rng = rand::rng();
+
     for (entity, mut dying, mut transform) in dying_bosses.iter_mut() {
         dying.timer.tick(time.delta());
 
@@ -63,6 +66,99 @@ pub fn animate_boss_death(
             DeathStage::Exploding => {
                 // Final explosion after short delay
                 if dying.timer.just_finished() {
+                    let pos = transform.translation.xy();
+                    
+                    // Spawn Pickups
+                    // 10 XP gems
+                    for _ in 0..10 {
+                        let offset = Vec2::new(rng.random_range(-50.0..50.0), rng.random_range(-50.0..50.0));
+                        commands.spawn((
+                            crate::components::Pickup {
+                                pickup_type: crate::components::PickupType::Xp,
+                                amount: 10,
+                            },
+                            Sprite {
+                                color: Color::srgb(0.2, 0.8, 0.2),
+                                custom_size: Some(Vec2::new(10.0, 10.0)),
+                                ..default()
+                            },
+                            Transform::from_xyz(pos.x + offset.x, pos.y + offset.y, 1.5),
+                        ));
+                    }
+                    // 5 Gold
+                    for _ in 0..5 {
+                        let offset = Vec2::new(rng.random_range(-50.0..50.0), rng.random_range(-50.0..50.0));
+                        commands.spawn((
+                            crate::components::Pickup {
+                                pickup_type: crate::components::PickupType::Gold,
+                                amount: 5,
+                            },
+                            Sprite {
+                                color: Color::srgb(1.0, 0.8, 0.0),
+                                custom_size: Some(Vec2::new(8.0, 8.0)),
+                                ..default()
+                            },
+                            Transform::from_xyz(pos.x + offset.x, pos.y + offset.y, 1.5),
+                        ));
+                    }
+                    // 1 Material
+                    let offset = Vec2::new(rng.random_range(-50.0..50.0), rng.random_range(-50.0..50.0));
+                    commands.spawn((
+                        crate::components::Pickup {
+                            pickup_type: crate::components::PickupType::Material,
+                            amount: 1,
+                        },
+                        Sprite {
+                            color: Color::srgb(0.8, 0.2, 0.8),
+                            custom_size: Some(Vec2::new(12.0, 12.0)),
+                            ..default()
+                        },
+                        Transform::from_xyz(pos.x + offset.x, pos.y + offset.y, 1.5),
+                    ));
+
+                    // 1 Equipment item
+                    let equip_types = [
+                        crate::components::PickupType::Weapon,
+                        crate::components::PickupType::Helmet,
+                        crate::components::PickupType::Armor,
+                        crate::components::PickupType::Pants,
+                        crate::components::PickupType::Shoes,
+                        crate::components::PickupType::Ring,
+                        crate::components::PickupType::Earring,
+                        crate::components::PickupType::Necklace,
+                        crate::components::PickupType::Gemstone,
+                    ];
+                    let random_equip = equip_types[rng.random_range(0..equip_types.len())];
+                    
+                    let offset = Vec2::new(rng.random_range(-50.0..50.0), rng.random_range(-50.0..50.0));
+                    commands.spawn((
+                        crate::components::Pickup {
+                            pickup_type: random_equip,
+                            amount: 1, // Placeholder
+                        },
+                        Sprite {
+                            color: Color::srgb(0.5, 1.0, 0.5), // Distinct color for equipment
+                            custom_size: Some(Vec2::new(15.0, 15.0)),
+                            ..default()
+                        },
+                        Transform::from_xyz(pos.x + offset.x, pos.y + offset.y, 1.5),
+                    ));
+
+                    // 1 Skill Gem
+                    let offset = Vec2::new(rng.random_range(-50.0..50.0), rng.random_range(-50.0..50.0));
+                    commands.spawn((
+                        crate::components::Pickup {
+                            pickup_type: crate::components::PickupType::SkillGem,
+                            amount: 1,
+                        },
+                        Sprite {
+                            color: Color::srgb(0.9, 0.4, 0.8), // Magenta for skills
+                            custom_size: Some(Vec2::new(16.0, 16.0)),
+                            ..default()
+                        },
+                        Transform::from_xyz(pos.x + offset.x, pos.y + offset.y, 1.5),
+                    ));
+
                     spawn_death_explosion(&mut commands, &assets, transform.translation);
                     commands.entity(entity).despawn();
                 }

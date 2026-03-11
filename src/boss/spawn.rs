@@ -10,8 +10,8 @@ pub fn test_spawn_bosses(
     time: Res<Time>,
     mut timer: ResMut<BossSpawnTimer>,
     mut commands: Commands,
-    mut meshes: ResMut<Assets<Mesh>>,
-    mut materials: ResMut<Assets<BossMaterial>>,
+    asset_server: Res<AssetServer>,
+    mut layouts: ResMut<Assets<TextureAtlasLayout>>,
     player_query: Query<&Transform, With<Player>>,
 ) {
     if !TEST_MODE {
@@ -31,14 +31,6 @@ pub fn test_spawn_bosses(
         let spawn_x = spawn_x.clamp(-ARENA_HALF_WIDTH + 100.0, ARENA_HALF_WIDTH - 100.0);
         let spawn_y = spawn_y.clamp(-ARENA_HALF_HEIGHT + 100.0, ARENA_HALF_HEIGHT - 100.0);
 
-        let material_handle = materials.add(BossMaterial {
-            color: LinearRgba::new(0.8, 0.2, 0.3, 1.0),
-            hit_flash: 0.0,
-            health_percent: 1.0,
-            time: 0.0,
-            is_moving: 0.0,
-        });
-
         commands.spawn((
             Boss,
             Enemy,
@@ -47,14 +39,29 @@ pub fn test_spawn_bosses(
             Sensor,
             LinearDamping(0.0),
             AngularDamping(10.0),
-            Mesh2d(meshes.add(Rectangle::new(BOSS_SIZE.x * 3.0, BOSS_SIZE.y * 3.0))),
-            MeshMaterial2d(material_handle),
+            Sprite {
+                image: asset_server.load("sprites/boss.png"),
+                custom_size: Some(Vec2::new(BOSS_SIZE.x * 3.0, BOSS_SIZE.y * 3.0)),
+                texture_atlas: Some(TextureAtlas {
+                    layout: layouts.add(TextureAtlasLayout::from_grid(UVec2::new(192, 192), 6, 1, None, None)),
+                    index: 0,
+                }),
+                ..default()
+            },
             Transform::from_xyz(spawn_x, spawn_y, 0.0),
             Health::new(BOSS_HEALTH),
             BossAttackTimer {
                 timer: Timer::from_seconds(BOSS_ATTACK_COOLDOWN, TimerMode::Repeating),
             },
             BossLastPosition(Vec2::new(spawn_x, spawn_y)),
+            crate::components::CombatStats {
+                intelligence: 5,
+                strength: 20,
+                agility: 5,
+                crit_rate: 0.05,
+                crit_damage: 1.5,
+                dodge_rate: 0.0,
+            },
         ));
     }
 }

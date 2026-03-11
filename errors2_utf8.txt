@@ -1,0 +1,180 @@
+﻿cargo.exe :     Checking top-down v0.1.0 (C:\Users\Borin\top-down)
+At line:1 char:1
++ & "$HOME\.cargo\bin\cargo" check > errors2.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (    Checking to...Borin\top-down):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+error[E0412]: cannot find type `ChildBuilder` in this scope
+  --> src\screens\stash_menu.rs:36:29
+   |
+36 | fn spawn_slot(builder: &mut ChildBuilder, label: &str, item: &Option<String>) {
+   |                             ^^^^^^^^^^^^ not found in this scope
+
+warning: unused import: `crate::constants::*`
+ --> src\screens\stash_menu.rs:2:5
+  |
+2 | use crate::constants::*;
+  |     ^^^^^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `Rng`
+  --> src\boss\death.rs:38:16
+   |
+38 |     use rand::{Rng, RngExt};
+   |                ^^^
+
+error[E0423]: expected function, tuple struct or tuple variant, found struct `BorderColor`
+    --> src\screens\stash_menu.rs:56:9
+     |
+  56 |         BorderColor(border_color),
+     |         ^^^^^^^^^^^^^^^^^^^^^^^^^
+     |
+    ::: C:\Users\Borin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\bevy_ui-0.18.0\src\ui_node.rs:2242:1
+     |
+2242 | pub struct BorderColor {
+     | ---------------------- `BorderColor` defined here
+     |
+help: use struct literal syntax instead
+     |
+  56 -         BorderColor(border_color),
+  56 +         BorderColor { top: val, right: val, bottom: val, left: val },
+     |
+help: you might have meant to use the `all` associated function
+     |
+  56 |         BorderColor::all(border_color),
+     |                    +++++
+help: a local variable with a similar name exists
+     |
+  56 -         BorderColor(border_color),
+  56 +         border_color(border_color),
+     |
+
+error[E0282]: type annotations needed
+  --> src\screens\stash_menu.rs:57:23
+   |
+57 |     )).with_children(|parent| {
+   |                       ^^^^^^
+58 |         parent.spawn((
+   |         ------ type must be known at this point
+   |
+help: consider giving this closure parameter an explicit type
+   |
+57 |     )).with_children(|parent: /* Type */| {
+   |                             ++++++++++++
+
+error[E0423]: expected function, tuple struct or tuple variant, found struct `BorderColor`
+    --> src\screens\stash_menu.rs:119:13
+     |
+ 119 |             BorderColor(Color::srgb(0.3, 0.3, 0.5)),
+     |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     |
+    ::: C:\Users\Borin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\bevy_ui-0.18.0\src\ui_node.rs:2242:1
+     |
+2242 | pub struct BorderColor {
+     | ---------------------- `BorderColor` defined here
+     |
+help: use struct literal syntax instead
+     |
+ 119 -             BorderColor(Color::srgb(0.3, 0.3, 0.5)),
+ 119 +             BorderColor { top: val, right: val, bottom: val, left: val },
+     |
+help: you might have meant to use the `all` associated function
+     |
+ 119 |             BorderColor::all(Color::srgb(0.3, 0.3, 0.5)),
+     |                        +++++
+
+error[E0423]: expected function, tuple struct or tuple variant, found struct `BorderColor`
+    --> src\screens\stash_menu.rs:136:23
+     |
+ 136 |             }).insert(BorderColor(Color::srgba(0.5, 0.5, 0.5, 0.3)))
+     |                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     |
+    ::: C:\Users\Borin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\bevy_ui-0.18.0\src\ui_node.rs:2242:1
+     |
+2242 | pub struct BorderColor {
+     | ---------------------- `BorderColor` defined here
+     |
+help: use struct literal syntax instead
+     |
+ 136 -             }).insert(BorderColor(Color::srgba(0.5, 0.5, 0.5, 0.3)))
+ 136 +             }).insert(BorderColor { top: val, right: val, bottom: val, left: val })
+     |
+help: you might have meant to use the `all` associated function
+     |
+ 136 |             }).insert(BorderColor::all(Color::srgba(0.5, 0.5, 0.5, 0.3)))
+     |                                  +++++
+
+error[E0423]: expected function, tuple struct or tuple variant, found struct `BorderColor`
+    --> src\screens\stash_menu.rs:184:17
+     |
+ 184 |                 BorderColor(Color::srgb(0.8, 0.3, 0.3)),
+     |                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     |
+    ::: C:\Users\Borin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\bevy_ui-0.18.0\src\ui_node.rs:2242:1
+     |
+2242 | pub struct BorderColor {
+     | ---------------------- `BorderColor` defined here
+     |
+help: use struct literal syntax instead
+     |
+ 184 -                 BorderColor(Color::srgb(0.8, 0.3, 0.3)),
+ 184 +                 BorderColor { top: val, right: val, bottom: val, left: val },
+     |
+help: you might have meant to use the `all` associated function
+     |
+ 184 |                 BorderColor::all(Color::srgb(0.8, 0.3, 0.3)),
+     |                            +++++
+
+error[E0423]: expected function, tuple struct or tuple variant, found struct `BorderColor`
+    --> src\screens\hud.rs:31:9
+     |
+  31 |         BorderColor(Color::srgb(0.7, 0.5, 0.2)),
+     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     |
+    ::: C:\Users\Borin\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\bevy_ui-0.18.0\src\ui_node.rs:2242:1
+     |
+2242 | pub struct BorderColor {
+     | ---------------------- `BorderColor` defined here
+     |
+help: use struct literal syntax instead
+     |
+  31 -         BorderColor(Color::srgb(0.7, 0.5, 0.2)),
+  31 +         BorderColor { top: val, right: val, bottom: val, left: val },
+     |
+help: you might have meant to use the `all` associated function
+     |
+  31 |         BorderColor::all(Color::srgb(0.7, 0.5, 0.2)),
+     |                    +++++
+
+error[E0599]: no method named `despawn_recursive` found for struct `EntityCommands<'a>` in the current scope
+  --> src\screens\hud.rs:67:33
+   |
+67 |         commands.entity(entity).despawn_recursive();
+   |                                 ^^^^^^^^^^^^^^^^^ method not found in `EntityCommands<'_>`
+
+warning: unused variable: `blade_entity`
+  --> src\combat\skills.rs:62:18
+   |
+62 |             for (blade_entity, mut blade_transform, mut blade) in blades_query.iter_mut() {
+   |                  ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_blade_entity`
+   |
+   = note: `#[warn(unused_variables)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused variable: `enemy_entity`
+  --> src\combat\skills.rs:70:22
+   |
+70 |                 for (enemy_entity, enemy_transform, mut health) in enemies_query.iter_mut() {
+   |                      ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_enemy_entity`
+
+warning: unused variable: `enemy_entity`
+   --> src\combat\skills.rs:102:26
+    |
+102 |                     for (enemy_entity, enemy_transform, mut health) in enemies_query.iter_mut() {
+    |                          ^^^^^^^^^^^^ help: if this is intentional, prefix it with an underscore: `_enemy_entity`
+
+Some errors have detailed explanations: E0282, E0412, E0423, E0599.
+For more information about an error, try `rustc --explain E0282`.
+warning: `top-down` (bin "top-down") generated 5 warnings
+error: could not compile `top-down` (bin "top-down") due to 8 previous errors; 5 warnings emitted

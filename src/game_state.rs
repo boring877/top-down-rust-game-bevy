@@ -9,4 +9,5 @@ pub enum GameState {
     SettingsMenu,
     Game,
     PauseMenu,  // Pause/reset menu during gameplay
+    StashMenu,  // Inventory and equipment
 }

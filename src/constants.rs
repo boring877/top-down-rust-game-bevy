@@ -92,6 +92,7 @@ pub const FONT_SIZE_TITLE: f32 = 60.0;
 pub const FONT_SIZE_SPLASH: f32 = 80.0;
 pub const FONT_SIZE_LABEL: f32 = 40.0;
 pub const FONT_SIZE_BUTTON: f32 = 40.0;
+pub const FONT_SIZE_NORMAL: f32 = 24.0;
 
 // ============================================================================
 // UI - COLORS

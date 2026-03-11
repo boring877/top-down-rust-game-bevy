@@ -1,5 +1,6 @@
-use crate::components::{Bullet, Player, Enemy, FireRate, ShotCounter, SuperBullet, Obstacle, Health};
+use crate::components::{Bullet, Player, Enemy, FireRate, ShotCounter, SuperBullet, Obstacle, Health, CombatStats, PlayerEquipment};
 use crate::materials::BulletMaterial;
+use rand::RngExt;
 use crate::constants::*;
 use bevy::prelude::*;
 use bevy::sprite_render::MeshMaterial2d;
@@ -12,10 +13,13 @@ pub fn spawn_bullet(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<BulletMaterial>>,
-    mut player_query: Query<(&Transform, &mut FireRate, &mut ShotCounter), With<Player>>,
+    mut player_query: Query<(&Transform, &mut FireRate, &mut ShotCounter, &CombatStats), With<Player>>,
     enemy_query: Query<&Transform, With<Enemy>>,
+    equipment: Res<PlayerEquipment>,
 ) {
-    for (transform, mut fire_rate, mut shot_counter) in player_query.iter_mut() {
+    let mut rng = rand::rng();
+
+    for (transform, mut fire_rate, mut shot_counter, combat_stats) in player_query.iter_mut() {
         fire_rate.timer.tick(time.delta());
 
         if fire_rate.timer.just_finished() {
@@ -31,11 +35,26 @@ pub fn spawn_bullet(
 
             let bullet_rotation = Quat::from_rotation_z(angle);
 
+            // Compute damage from total stats
+            let total_stats = equipment.get_total_stats(combat_stats);
+            let phys_atk = total_stats.agility * 2;
+            let is_crit = rng.random_range(0.0..1.0) < total_stats.crit_rate;
+            let mut base_dmg = phys_atk;
+            if is_crit {
+                base_dmg = (base_dmg as f32 * total_stats.crit_damage) as u32;
+            }
+
+            let final_damage = if is_super {
+                base_dmg.max(1) * 3
+            } else {
+                base_dmg.max(1)
+            };
+
             if is_super {
                 commands.spawn((
                     Bullet {
                         speed: SUPER_BULLET_SPEED,
-                        damage: SUPER_BULLET_DAMAGE,
+                        damage: final_damage,
                         direction
                     },
                     SuperBullet,
@@ -50,7 +69,7 @@ pub fn spawn_bullet(
                 commands.spawn((
                     Bullet {
                         speed: BULLET_SPEED,
-                        damage: BULLET_DAMAGE,
+                        damage: final_damage,
                         direction
                     },
                     Mesh2d(meshes.add(Rectangle::new(20.0, 12.0))),
